@@ -1,0 +1,49 @@
+CREATE USER 'companyusr'@'localhost' IDENTIFIED BY 'companypsw';
+
+CREATE DATABASE companydb
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON companydb.* TO 'companyusr'@'localhost';
+
+USE companydb;
+
+CREATE TABLE company (
+    id INT(4) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    foundationYear INT NOT NULL,
+    nif VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE employee (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(20) NOT NULL,
+    salary DOUBLE DEFAULT 0.0,
+    homeWorking BOOLEAN,
+    company_id INT,
+    FOREIGN KEY (company_id) REFERENCES company(id) ON DELETE NO ACTION ON UPDATE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+
+
+
+INSERT INTO company(name, foundationYear, nif) VALUES 
+    ("POCOLOCO", 2019, "E0123456"),
+    ("ZEPELI", 2009, "E0223456"),
+    ("JOESTAR", 2119, "E0323456"),
+    ("GIOVANA", 2014, "E0423456"),
+    ("DIO", 2012, "E0523456"),
+    ("CANGREBURGER", 2011, "E0623456");
+
+INSERT INTO employee(username,salary,homeWorking,company_id) VALUES 
+    ("GIORNO_GIOVANA", 1000.0, '1', 1),
+    ("JOTARO_KUJO", 10.0, '1', 2),
+    ("DIO_BRANDO", 10.0, '0', 3),
+    ("BOB_ESPONJA", 10.0, '1', 1),
+    ("GYRO_ZEPELI", 10.0, '0', 3),
+    ("JOLINE_JOESTAR", 10.0, '0', 4),
+    ("POLOMAGISTER", 10.0, '1', 5),
+    ("HANZO", 10.0, '0', 6),
+    ("GENJI", 10.0, '1', 4);

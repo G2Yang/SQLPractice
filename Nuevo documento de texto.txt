@@ -1,0 +1,43 @@
+CREATE USER 'activityusr'@'localhost' IDENTIFIED BY 'activitypsw';
+
+CREATE DATABASE activitydb
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON activitydb.* TO 'activityusr'@'localhost';
+
+USE activitydb
+
+CREATE TABLE activity (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    capacity INT NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    age INT NOT NULL,
+    activity_id INT NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_activity
+    FOREIGN KEY (activity_id)
+    REFERENCES activity(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+
+INSERT INTO activity (name, capacity) VALUES 
+    ("Boley", 10),
+    ("Gacha", 20),
+    ("Football", 46),
+    ("Bowling", 12),
+    ("Cooking", 2012);
+
+INSERT INTO user(name, age, activity_id) VALUES 
+    ("Fernando", 1000, 1),
+    ("Alex", 5, 2),
+    ("Cege", 50, 3),
+    ("Alesandro", 23, 4),
+    ("Mario", 88, 5);

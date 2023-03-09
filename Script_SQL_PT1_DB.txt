@@ -1,0 +1,38 @@
+-- Crear usuario y conceder permisos
+CREATE USER 'andrei'@'localhost' IDENTIFIED BY 'alumne';
+GRANT SELECT, INSERT, UPDATE, DELETE ON PT1_DB.* TO 'andrei'@'localhost';
+
+-- Eliminar base de datos si ya existe y crear nueva base de datos
+DROP DATABASE IF EXISTS PT1_DB;
+CREATE DATABASE PT1_DB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+-- Cambiar a la base de datos PT1_DB
+USE PT1_DB;
+
+-- Crear tabla Activity
+CREATE TABLE Activity (
+  id INT NOT NULL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  capacity INT NOT NULL
+);
+
+-- Crear tabla User
+CREATE TABLE User (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_activity INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  age INT NOT NULL,
+  CONSTRAINT fk_activity
+    FOREIGN KEY (id_activity)
+    REFERENCES Activity(id)
+    ON DELETE CASCADE
+);
+
+-- Insertar datos en la tabla Activity
+INSERT INTO Activity (id, name, capacity)
+VALUES (1, 'Natacion', 10), (2, 'Balonmano', 20), (3, 'Futbol', 20);
+
+-- Insertar datos en la tabla User
+INSERT INTO User (id_activity, name, age)
+VALUES (1, 'Sebastian Ionut', 22), (3, 'Robert Dulmus', 23), (2, 'Juan Perez', 30);
+
